@@ -1,0 +1,24 @@
+.letter-cell {
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 10px;
+    width: 50px;
+    display: inline-block;
+}
+
+input {
+    margin: auto;
+    width: 40px !important;
+}
+
+.unsanswered {
+    background-color: grey;
+}
+
+.correct {
+    background-color: green;
+}
+
+.incorrect {
+    background-color: red;
+}
