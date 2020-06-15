@@ -22,6 +22,11 @@ class App extends Component {
     }
 
     getSentences() {
+
+        this.setState({
+            sentences: []
+        });
+
         let localThis = this;
         axios.post('/api/get_sentence', [
             this.state.count,

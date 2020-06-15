@@ -66542,6 +66542,9 @@ var App = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSentences",
     value: function getSentences() {
+      this.setState({
+        sentences: []
+      });
       var localThis = this;
       axios.post('/api/get_sentence', [this.state.count]).then(function (response) {
         if (response['status'] == 200) {
