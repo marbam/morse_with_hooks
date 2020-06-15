@@ -2,7 +2,7 @@
     text-align: center;
     border: 1px solid grey;
     border-radius: 10px;
-    width: 50px;
+    width: 75px;
     display: inline-block;
 }
 
@@ -11,7 +11,7 @@ input {
     width: 40px !important;
 }
 
-.unsanswered {
+.unanswered {
     background-color: grey;
 }
 
