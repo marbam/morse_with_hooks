@@ -66513,10 +66513,6 @@ function App() {
       count = _useState4[0],
       setCount = _useState4[1];
 
-  function updateCount(event) {
-    setCount(event.target.value);
-  }
-
   function getSentences() {
     setSentences([]);
     axios.post('/api/get_sentence', [count]).then(function (response) {

@@ -7,10 +7,6 @@ function App() {
     const [sentences, setSentences] = useState([]);
     const [count, setCount] = useState(1);
 
-    function updateCount(event) {
-        setCount(event.target.value);
-    }
-
     function getSentences() {
         setSentences([]);
         axios.post('/api/get_sentence', [
