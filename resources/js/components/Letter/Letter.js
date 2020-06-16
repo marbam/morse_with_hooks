@@ -1,88 +1,68 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './Letter.css';
 
-class Letter extends Component {
-    constructor () {
-        super();
-        this.state = {
-            guess: '',
-            correct: '',
-            answer: '',
-            background: 'unanswered'
-        }
-        this.guessHandler = this.guessHandler.bind(this);
-        this.reveal = this.reveal.bind(this);
-    }
+function Letter (props) {
+    const [guess, setGuess] = useState('');
+    const [correct, setCorrect] = useState('');
+    const [background, setBackground] = useState('unanswered');
 
-    componentDidMount() {
-        let english = Object.keys(this.props.answer);
-        this.setState({
-            answer: english
-        });
-    }
+    let answer = Object.keys(props.answer);
+    let morse = props.answer[answer[0]];
 
-    guessHandler(event) {
+    function guessHandler(event) {
         let value = event.target.value.toUpperCase();
-        let correct = false;
-        if (value == this.state.answer[0]) {
-            correct = true;
+        let isCorrect = false;
+        if (value == answer) {
+            isCorrect = true;
         }
 
-        let background = null;
+        let newBackground = null;
         if (value === '') {
-            background = "unanswered";
-        } else if (correct) {
-            background = "correct";
+            newBackground = "unanswered";
+        } else if (isCorrect) {
+            newBackground = "correct";
         } else {
-            background = "incorrect";
+            newBackground = "incorrect";
         }
 
-        this.setState({
-            guess: value,
-            correct: correct,
-            background: background
-        });
+        setGuess(value);
+        setCorrect(isCorrect);
+        setBackground(newBackground);
     }
 
-    reveal () {
-        this.setState({
-            guess: this.state.answer[0],
-            correct: true,
-            background: 'correct'
-        })
+    function reveal () {
+        setGuess(answer);
+        setCorrect(true);
+        setBackground('correct');
     }
 
-    render () {
-        let morse = this.props.answer[this.state.answer[0]];
+    let buttonDiv = null;
+    if (!correct) {
+        buttonDiv = <div>
+            <button
+                className="btn btn-light"
+                onClick={reveal}
+            >Show</button>
+        </div>
+    }
 
-        let buttonDiv = null;
-        if (!this.state.correct) {
-            buttonDiv = <div>
-                <button
-                    className="btn btn-light"
-                    onClick={this.reveal}
-                >Show</button>
+    return (
+        <div className={`letter-cell ${background}`}>
+            <div> {morse} </div>
+            <div>
+                <input
+                    className="letter-input form-control"
+                    type="text"
+                    maxLength="1"
+                    value={guess}
+                    onChange={guessHandler}
+                    disabled={correct}
+                />
             </div>
-        }
-
-        return (
-            <div className={`letter-cell ${this.state.background}`}>
-                <div> { morse } </div>
-                <div>
-                    <input
-                        className="letter-input form-control"
-                        type="text"
-                        maxLength="1"
-                        value={this.state.guess}
-                        onChange={this.guessHandler}
-                        disabled={this.state.correct}
-                    />
-                </div>
-                {buttonDiv}
-            </div>
-        );
-    }
+            {buttonDiv}
+        </div>
+    );
 }
 
 export default Letter;

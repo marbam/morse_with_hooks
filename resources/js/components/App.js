@@ -1,56 +1,33 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Question from './Question/Question';
 
-class App extends Component {
+function App() {
 
-    constructor () {
-        super();
-        this.state = {
-            sentences: [],
-            count: 1
-        }
-        this.updateCount = this.updateCount.bind(this);
-        this.getSentences = this.getSentences.bind(this);
+    const [sentences, setSentences] = useState([]);
+    const [count, setCount] = useState(1);
 
-    }
-
-    updateCount(event) {
-        this.setState({
-            count: event.target.value
-        });
-    }
-
-    getSentences() {
-
-        this.setState({
-            sentences: []
-        });
-
-        let localThis = this;
+    function getSentences() {
+        setSentences([]);
         axios.post('/api/get_sentence', [
-            this.state.count,
+            count,
         ])
         .then(function(response){
             if (response['status'] == 200) {
-                localThis.setState({
-                    sentences: response.data
-                })
+                setSentences(response.data);
             }
         });
     }
 
-    render() {
-        return (
-            <div>
-                <input type="number" value={this.state.count} onChange={this.updateCount}></input>
-                <button type="button" onClick={this.getSentences}>Click for Questions!</button>
-                {this.state.sentences.map((sentence, index) =>
-                        <Question sentence={sentence} key={index}></Question>
-                    )}
-            </div>
-        );
-    }
+    return (
+        <div>
+            <input type="number" className="form-input" value={count} onChange={(e) => {setCount(e.target.value)}}></input>
+            <button type="button" className="btn btn-primary" onClick={getSentences}>Click for Questions!</button>
+            {sentences.map((sentence, index) =>
+                <Question sentence={sentence} key={index}></Question>
+            )}
+        </div>
+    );
 }
 
 export default App;
